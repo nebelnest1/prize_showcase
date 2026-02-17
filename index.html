@@ -25,20 +25,27 @@
    <style>
     /* БАЗА И ФОН */
     body { 
-        margin: 0; padding: 0; min-height: 100vh; font-family: 'Arial', sans-serif; cursor: pointer; 
+        margin: 0; padding: 0; 
+        min-height: 100dvh; /* Используем dvh для идеального фита на смартфонах */
+        font-family: 'Arial', sans-serif; cursor: pointer; 
         background: radial-gradient(circle at center, #fff3e0 0%, #f5b041 50%, #b9770e 100%);
         overflow-x: hidden;
         color: #5c2a00;
+        display: flex;
+        justify-content: center;
+        align-items: center; /* Центрируем контент по вертикали */
     }
     *, ::after, ::before { box-sizing: border-box; }
 
     /* КОНТЕЙНЕР ПРИЛОЖЕНИЯ */
     .app-wrapper {
-        max-width: 600px; /* Оптимально для мобилок и планшетов */
-        margin: 0 auto;
-        padding: 15px;
+        width: 100%;
+        max-width: 600px;
+        min-height: 100dvh;
+        padding: 3vh 15px; /* Зависящие от высоты отступы */
         display: flex;
         flex-direction: column;
+        justify-content: space-between; /* Распределяет шапку, сетку и кнопку равномерно */
         align-items: center;
     }
 
@@ -47,18 +54,17 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 2.2rem;
+        font-size: clamp(1.8rem, 6vw, 2.2rem); /* Адаптивный шрифт */
         font-weight: 900;
         color: #4a2300;
-        margin-bottom: 15px;
         text-shadow: 1px 1px 2px rgba(255,255,255,0.8);
     }
     .header img {
-        width: 45px;
+        width: clamp(35px, 10vw, 45px);
         margin-right: 10px;
     }
 
-    /* СЕТКА ПРИЗОВ (3x3) */
+    /* СЕТКА ПРИЗОВ (3x2) */
     .prizes-grid {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
@@ -69,6 +75,7 @@
         border-radius: 12px;
         border: 2px solid #e67e22;
         box-shadow: 0 10px 20px rgba(0,0,0,0.3), inset 0 0 15px rgba(255,255,255,0.7);
+        margin: 1vh 0; /* Небольшой отступ по вертикали */
     }
 
     /* КАРТОЧКА ПРИЗА */
@@ -79,6 +86,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+        justify-content: space-between;
         padding: 6px;
         position: relative;
         box-shadow: inset 0 -10px 20px rgba(0,0,0,0.05);
@@ -106,7 +114,7 @@
         background: #e6dac3;
         color: #5c2a00;
         font-weight: 900;
-        font-size: 12px;
+        font-size: clamp(9px, 3vw, 12px);
         padding: 4px 8px;
         border: 2px solid #8d6e63;
         border-radius: 4px;
@@ -119,14 +127,14 @@
     /* ИЗОБРАЖЕНИЕ ТОВАРА */
     .prize-img {
         width: 100%;
-        aspect-ratio: 1/1;
+        max-height: 80px; /* Ограничиваем высоту, чтобы не распирало карточку */
         object-fit: contain;
         margin-bottom: 5px;
     }
 
     /* ТЕКСТА КАРТОЧКИ */
     .prize-title {
-        font-size: 11px;
+        font-size: clamp(9px, 3vw, 11px);
         font-weight: 800;
         text-align: center;
         margin-bottom: 2px;
@@ -148,7 +156,7 @@
         border-radius: 4px;
         font-size: 10px;
         font-weight: 800;
-        padding: 4px 0;
+        padding: 6px 0;
         text-transform: uppercase;
         cursor: pointer;
         box-shadow: 0 2px 4px rgba(0,0,0,0.3);
@@ -157,7 +165,6 @@
 
     /* НИЖНЯЯ СЕКЦИЯ С КОРОБКОЙ */
     .mystery-section {
-        margin-top: 20px;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -165,8 +172,8 @@
         position: relative;
     }
     .mystery-box {
-        width: 140px;
-        margin-bottom: -15px; /* Задвигаем коробку немного за кнопку для объема */
+        width: clamp(80px, 25vw, 120px); /* Слегка уменьшил коробку для компактности */
+        margin-bottom: -15px; 
         z-index: 1;
         animation: float 3s ease-in-out infinite;
     }
@@ -189,13 +196,13 @@
 
     /* ГЛАВНАЯ КНОПКА */
     .open-all-btn {
-        width: 90%;
-        max-width: 300px;
+        width: 100%;
+        max-width: 320px;
         background: linear-gradient(180deg, #f5b041, #d68910);
         color: #4a2300;
-        font-size: 20px;
+        font-size: clamp(16px, 5vw, 20px);
         font-weight: 900;
-        padding: 15px 20px;
+        padding: 15px 10px;
         border: 3px solid #f9e79f;
         border-radius: 8px;
         text-transform: uppercase;
@@ -206,7 +213,7 @@
     }
     @keyframes pulseBig {
         0%, 100% { transform: scale(1); }
-        50% { transform: scale(1.05); box-shadow: 0 12px 20px rgba(0,0,0,0.5), inset 0 0 15px rgba(255,255,255,0.8); }
+        50% { transform: scale(1.03); box-shadow: 0 10px 18px rgba(0,0,0,0.5), inset 0 0 15px rgba(255,255,255,0.8); }
     }
 
     /* СЧЕТЧИК ПОЛЬЗОВАТЕЛЕЙ */
@@ -220,7 +227,6 @@
     <script defer src="./assets/scripts/common.js"></script>
 
   <script>
-    // Оставил твой скрипт для подмены папок с картинками через параметр 'v'
     document.addEventListener("DOMContentLoaded", function() {
         const urlParams = new URLSearchParams(window.location.search);
         const v = urlParams.get('v');
@@ -244,21 +250,21 @@
     <div class="app-wrapper">
         
         <div class="header" data-target="modal_content">
-            <img src="./assets/images/gift_icon.png" alt="Gift">
+            <img src="./assets/images/gift_icon.webp" alt="Gift">
             Today's Gifts
         </div>
 
         <div class="prizes-grid" data-target="modal_content">
             <div class="prize-card" data-target="modal_content">
                 <div class="badge-hot">HOT</div>
-                <img src="./assets/images/iphone.png" class="prize-img" alt="iPhone 15 Pro">
+                <img src="./assets/images/iphone.webp" class="prize-img" alt="iPhone 15 Pro">
                 <div class="prize-title">iPhone 15 Pro</div>
                 <div class="prize-value">Value: $999</div>
                 <button class="claim-btn">CLAIM NOW</button>
             </div>
             
             <div class="prize-card" data-target="modal_content">
-                <img src="./assets/images/samsung.png" class="prize-img" alt="Samsung S24 Ultra">
+                <img src="./assets/images/samsung.webp" class="prize-img" alt="Samsung S24 Ultra">
                 <div class="prize-title">Samsung S24 Ultra</div>
                 <div class="prize-value">Value: $1199</div>
                 <button class="claim-btn btn-green">CLAIM NOW</button>
@@ -266,57 +272,36 @@
 
             <div class="prize-card" data-target="modal_content">
                 <div class="badge-reserved">RESERVED</div>
-                <img src="./assets/images/airpods.png" class="prize-img" alt="Airpods Pro">
+                <img src="./assets/images/airpods.webp" class="prize-img" alt="Airpods Pro">
                 <div class="prize-title">Airpods Pro</div>
                 <div class="prize-value">Value: $249</div>
                 <button class="claim-btn">CLAIM NOW</button>
             </div>
 
             <div class="prize-card" data-target="modal_content">
-                <img src="./assets/images/ps5.png" class="prize-img" alt="PS5 Console">
+                <img src="./assets/images/ps5.webp" class="prize-img" alt="PS5 Console">
                 <div class="prize-title">PS5 Console</div>
                 <div class="prize-value">Value: $499</div>
                 <button class="claim-btn">CLAIM NOW</button>
             </div>
 
             <div class="prize-card" data-target="modal_content">
-                <img src="./assets/images/amazon.png" class="prize-img" alt="Amazon Gift Card">
+                <img src="./assets/images/amazon.webp" class="prize-img" alt="Amazon Gift Card">
                 <div class="prize-title">Amazon Gift Card</div>
                 <div class="prize-value">Value: $100</div>
                 <button class="claim-btn btn-green">CLAIM NOW</button>
             </div>
 
             <div class="prize-card" data-target="modal_content">
-                <img src="./assets/images/macbook.png" class="prize-img" alt="Macbook Pro">
+                <img src="./assets/images/macbook.webp" class="prize-img" alt="Macbook Pro">
                 <div class="prize-title">Macbook Pro</div>
                 <div class="prize-value">Value: $1999</div>
-                <button class="claim-btn">CLAIM NOW</button>
-            </div>
-
-            <div class="prize-card" data-target="modal_content">
-                <img src="./assets/images/watch.png" class="prize-img" alt="Apple Watch Ultra">
-                <div class="prize-title">Apple Watch Ultra</div>
-                <div class="prize-value">Value: $799</div>
-                <button class="claim-btn">CLAIM NOW</button>
-            </div>
-
-            <div class="prize-card" data-target="modal_content">
-                <img src="./assets/images/visa.png" class="prize-img" alt="VISA Gift Card">
-                <div class="prize-title">VISA Gift Card</div>
-                <div class="prize-value">Value: $500</div>
-                <button class="claim-btn">CLAIM NOW</button>
-            </div>
-
-            <div class="prize-card" data-target="modal_content">
-                <img src="./assets/images/vacation.png" class="prize-img" alt="Luxury Vacation">
-                <div class="prize-title">Luxury Vacation</div>
-                <div class="prize-value">Value: $1500</div>
                 <button class="claim-btn">CLAIM NOW</button>
             </div>
         </div>
 
         <div class="mystery-section" data-target="modal_content">
-            <img src="./assets/images/mystery_box.png" class="mystery-box" alt="Mystery Box">
+            <img src="./assets/images/mystery_box.webp" class="mystery-box" alt="Mystery Box">
             <div class="tap-reveal">Tap to Reveal!</div>
             <button class="open-all-btn">OPEN ALL PRIZES</button>
             <div class="viewers">123 users viewing</div>
